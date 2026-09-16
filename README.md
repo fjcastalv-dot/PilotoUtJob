@@ -79,17 +79,10 @@ bolsa-trabajo-utcancun/
 
 ---
 
-## 🌐 ¿Cómo subirlo y sincronizarlo con GitHub?
-1. Crea un nuevo repositorio en tu cuenta de GitHub (ejemplo: `bolsa-trabajo-utcancun`).
-2. Copia la URL del repositorio (ejemplo: `https://github.com/tu-usuario/bolsa-trabajo-utcancun.git`).
-3. Abre una terminal dentro de la carpeta del proyecto y ejecuta:
-   ```bash
-   git init
-   git add .
-   git commit -m "Primer commit: Prototipo funcional Bolsa de Trabajo UT Cancún"
-   git branch -M main
-   git remote add origin TU_URL_DE_GITHUB
-   git push -u origin main
-   ```
-4. Para actualizaciones posteriores, puedes hacer doble clic en el archivo `Sincronizar_GitHub.bat` incluido en la carpeta.
-5. Puedes habilitar **GitHub Pages** en la pestaña *Settings > Pages* de tu repositorio para obtener un enlace público funcional en minutos.
+## 🌐 Repositorio Oficial en GitHub
+- **URL del Repositorio:** [https://github.com/fjcastalv-dot/PilotoUtJob](https://github.com/fjcastalv-dot/PilotoUtJob)
+- **Despliegue en Vivo (GitHub Pages sugerido):** `https://fjcastalv-dot.github.io/PilotoUtJob/`
+
+### Sincronización de Cambios:
+Para enviar cualquier modificación futura a GitHub, simplemente haz doble clic en el archivo **`Sincronizar_GitHub.bat`** incluido dentro de esta carpeta.
+

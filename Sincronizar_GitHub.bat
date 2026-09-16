@@ -8,6 +8,7 @@ echo    SINCRONIZAR BOLSA DE TRABAJO UT CANCÚN CON GITHUB
 echo ======================================================
 echo.
 echo Directorio local: %~dp0
+echo Repositorio:       https://github.com/fjcastalv-dot/PilotoUtJob.git
 echo.
 
 set GIT_CMD="git"
