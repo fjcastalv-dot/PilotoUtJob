@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bolsa de Trabajo | Universidad Tecnológica de Cancún</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'utc-green': '#006837',
+            'utc-green-dark': '#004d28',
+            'utc-green-light': '#008f4c',
+            'utc-gold': '#F39200',
+            'utc-gold-dark': '#D97706',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Estilos Personalizados Institucionales UT Cancún -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-full flex flex-col antialiased">
+
+  <!-- ====================================================================
+       ENCABEZADO INSTITUCIONAL CON SELECTOR DE ROL PARA DEMOSTRACIÓN
+       ==================================================================== -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-4">
+        
+        <!-- Logo e Identidad Institucional UT Cancún -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#006837] flex items-center justify-center text-white font-black text-lg shadow-sm border border-emerald-800">
+            UT
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-[#006837] text-base tracking-tight leading-none">UT CANCÚN</span>
+              <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Bolsa de Trabajo</span>
+            </div>
+            <p class="text-[11px] text-slate-500 font-medium">Vinculación y Desarrollo Profesional</p>
+          </div>
+        </div>
+
+        <!-- SELECTOR DE ROL DISCRETO PARA DEMOSTRACIÓN EN CLASE -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Indicador visual del rol activo -->
+          <div id="current-role-badge" class="hidden md:inline-flex items-center gap-1.5 text-xs font-bold text-[#006837] bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#F39200]"></i> Modo Estudiante
+          </div>
+
+          <div class="bg-slate-100 p-1 rounded-full flex items-center border border-slate-200 shadow-inner">
+            <button id="btn-role-student" class="px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-[#006837] text-white shadow-sm" title="Alternar a vista de Estudiante / Egresado">
+              <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Estudiante / Egresado</span>
+            </button>
+            <button id="btn-role-company" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5" title="Alternar a vista de Empresa / Reclutador">
+              <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Empresa / Reclutador</span>
+            </button>
+          </div>
+
+          <!-- Botón para reconfigurar datos de onboarding -->
+          <button id="btn-change-profile" class="text-xs text-slate-600 hover:text-[#006837] font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200 transition" title="Cambiar datos de registro o carrera">
+            <i data-lucide="user-cog" class="w-3.5 h-3.5"></i>
+            <span class="hidden lg:inline">Editar Perfil</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       CONTENEDOR PRINCIPAL
+       ==================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ==================================================================
+         VISTA 1: ESTUDIANTE / EGRESADO (DASHBOARD DEL CANDIDATO)
+         ================================================================== -->
+    <div id="view-student" class="view-transition">
+      
+      <!-- Fila Superior: Perfil del Estudiante + Módulo de Privacidad -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        
+        <!-- Tarjeta de Perfil Estudiantil -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-[#006837] flex items-center justify-center font-bold text-lg border-2 border-emerald-500 shadow-xs">
+                  JC
+                </div>
+                <div>
+                  <h2 id="student-profile-name" class="font-extrabold text-slate-900 text-lg sm:text-xl leading-tight">Javier Castro Alvarado</h2>
+                  <p id="student-profile-career" class="text-xs text-slate-600 font-medium mt-0.5">Ing. en Desarrollo y Gestión de Software</p>
+                  <p id="student-profile-quarter" class="text-xs text-[#006837] font-semibold">10° Cuatrimestre • Matrícula 21040892</p>
+                </div>
+              </div>
+              <!-- Contenedor Dinámico de la Insignia Egresado UT Verificado -->
+              <div id="student-verified-badge-container"></div>
+            </div>
+
+            <!-- Habilidades Registradas -->
+            <div class="mt-4 pt-4 border-t border-slate-100">
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Habilidades Técnicas Registradas:</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded-md font-medium">JavaScript (ES6+)</span>
+                <span class="text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded-md font-medium">Tailwind CSS</span>
+                <span class="text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded-md font-medium">APIs REST</span>
+                <span class="text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded-md font-medium">Git / GitHub</span>
+                <span class="text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded-md font-medium">MySQL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Banner de Filtro Inteligente según Cuatrimestre -->
+          <div id="student-smart-filter-banner" class="mt-5"></div>
+        </div>
+
+        <!-- Módulo de Privacidad y Contacto Estudiantil (LFPDPPP) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="shield" class="w-5 h-5 text-[#006837]"></i>
+              <h3 class="font-bold text-slate-900 text-sm">Privacidad y Contacto UT</h3>
+            </div>
+            <p class="text-xs text-slate-500 mb-3 leading-relaxed">
+              Tú decides cómo interactúan las empresas aliadas contigo. Cumplimiento con la normativa <strong>LFPDPPP</strong>.
+            </p>
+
+            <!-- Datos de Contacto Editables -->
+            <div class="space-y-2 mb-3">
+              <div>
+                <label class="text-[11px] font-bold text-slate-600 block mb-0.5">WhatsApp de Contacto:</label>
+                <input type="text" id="student-whatsapp-input" value="9981552233" class="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837] bg-slate-50" />
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-slate-600 block mb-0.5">Enlace a LinkedIn:</label>
+                <input type="text" id="student-linkedin-input" value="https://linkedin.com/in/javier-castro-ut" class="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837] bg-slate-50" />
+              </div>
+            </div>
+
+            <!-- Toggles de Privacidad -->
+            <div class="space-y-3">
+              <!-- Toggle WhatsApp -->
+              <div class="flex items-start justify-between gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div class="flex-1">
+                  <label for="privacy-toggle-whatsapp" class="text-xs font-bold text-slate-800 block cursor-pointer">
+                    Contacto Directo por WhatsApp
+                  </label>
+                  <span class="text-[10px] text-slate-500 leading-tight block mt-0.5">
+                    Permite a empresas enviarte mensaje directo vía WhatsApp.
+                  </span>
+                </div>
+                <input type="checkbox" id="privacy-toggle-whatsapp" class="w-4 h-4 text-[#006837] accent-[#006837] rounded cursor-pointer mt-0.5" />
+              </div>
+
+              <!-- Toggle LinkedIn -->
+              <div class="flex items-start justify-between gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div class="flex-1">
+                  <label for="privacy-toggle-linkedin" class="text-xs font-bold text-slate-800 block cursor-pointer">
+                    Enlace Público de LinkedIn
+                  </label>
+                  <span class="text-[10px] text-slate-500 leading-tight block mt-0.5">
+                    Muestra tu enlace en el catálogo de empresas.
+                  </span>
+                </div>
+                <input type="checkbox" id="privacy-toggle-linkedin" class="w-4 h-4 text-[#006837] accent-[#006837] rounded cursor-pointer mt-0.5" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Leyenda Legal LFPDPPP -->
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400">
+            <i data-lucide="lock" class="w-3.5 h-3.5 flex-shrink-0"></i>
+            <span>Protegido bajo la Ley Federal de Protección de Datos Personales (LFPDPPP).</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Filtros Rápidos y Búsqueda -->
+      <div class="bg-white rounded-xl border border-slate-200 p-4 mb-6 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        
+        <!-- Filtros Rápidos en Chips -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Filtros:</span>
+          <button data-filter="todas" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-[#006837] text-white shadow-xs">
+            Todas
+          </button>
+          <button data-filter="medio_tiempo" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition">
+            Medio Tiempo
+          </button>
+          <button data-filter="estadia" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition">
+            Estadías con Contratación
+          </button>
+          <button data-filter="tiempo_completo" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition">
+            Tiempo Completo (Egresados)
+          </button>
+        </div>
+
+        <!-- Barra de Búsqueda y Contador -->
+        <div class="flex items-center gap-3">
+          <div class="relative flex-1 sm:w-64">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
+            <input 
+              type="text" 
+              id="search-vacancies-input" 
+              placeholder="Buscar por puesto o empresa..." 
+              class="w-full text-xs pl-9 pr-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837] focus:ring-1 focus:ring-[#006837] transition bg-slate-50"
+            />
+          </div>
+          <span id="vacancies-count-badge" class="text-xs font-bold text-[#006837] bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200 whitespace-nowrap">
+            Cargando...
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Directorio de Vacantes con Semáforo de Compatibilidad -->
+      <div id="vacancies-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Renderizado dinámico vía app.js -->
+      </div>
+
+    </div>
+
+    <!-- ==================================================================
+         VISTA 2: EMPRESA / RECLUTADOR (DASHBOARD CORPORATIVO)
+         ================================================================== -->
+    <div id="view-company" class="view-transition view-hidden">
+      
+      <!-- Bienvenida Corporativa -->
+      <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 mb-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+            <i data-lucide="award" class="w-4 h-4"></i> Empresa Vinculada con UT Cancún
+          </span>
+          <h2 id="company-name-display" class="text-xl sm:text-2xl font-black">Grupo Xcaret - Cancún</h2>
+          <p id="company-recruiter-display" class="text-xs text-slate-300 mt-1">Lic. Mariana Velázquez • Hotelería, Turismo y Entretenimiento</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="bg-white/10 backdrop-blur-md px-3.5 py-2 rounded-xl text-center border border-white/15">
+            <span class="block text-lg font-black text-amber-400">100%</span>
+            <span class="text-[10px] uppercase font-bold text-slate-300">Vinculación Directa</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Principal: Formulario de Publicación + Explorador de Talento -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Panel de Publicación de Vacantes (Columna Izquierda) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm h-fit">
+          <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
+            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-[#006837] flex items-center justify-center font-bold">
+              <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm">Publicar Nueva Vacante</h3>
+              <p class="text-[11px] text-slate-500">Conecta con alumnos de estadía o egresados</p>
+            </div>
+          </div>
+
+          <form id="post-job-form" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Título de la Vacante</label>
+              <input type="text" id="job-title-input" required placeholder="Ej: Desarrollador Jr / Auxiliar de Alimentos" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Jornada</label>
+                <select id="job-type-input" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+                  <option value="Estadía con Contratación">Estadía Profesional</option>
+                  <option value="Medio Tiempo">Medio Tiempo</option>
+                  <option value="Tiempo Completo">Tiempo Completo</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Modalidad</label>
+                <select id="job-modality-input" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+                  <option value="Presencial (Zona Hotelera)">Zona Hotelera</option>
+                  <option value="Presencial (Cancún Centro)">Cancún Centro</option>
+                  <option value="Híbrido (Cancún Centro)">Híbrido</option>
+                  <option value="Home Office">Home Office</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Carrera Afín de la UT Cancún</label>
+              <select id="job-career-input" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+                <option value="Ing. en Desarrollo y Gestión de Software">Ing. en Software</option>
+                <option value="TSU en Infraestructura de Redes Digitales">TSU en Redes</option>
+                <option value="Lic. en Gestión y Desarrollo Turístico">Lic. en Turismo</option>
+                <option value="Lic. en Gastronomía">Lic. en Gastronomía</option>
+                <option value="Lic. en Gestión del Capital Humano">Lic. en Capital Humano</option>
+                <option value="TSU en Desarrollo de Negocios área Mercadotecnia">TSU en Mercadotecnia</option>
+                <option value="Ing. en Mantenimiento Industrial">Ing. en Mantenimiento</option>
+                <option value="Ing. en Mecatrónica">Ing. en Mecatrónica</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Beca / Compensación Mensual</label>
+              <input type="text" id="job-compensation-input" placeholder="Ej: $8,500 MXN + Transporte y Alimentos" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Habilidades Requeridas (Separadas por comas)</label>
+              <input type="text" id="job-skills-input" placeholder="Ej: Inglés B2, Excel avanzado, Trabajo en equipo" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+            </div>
+
+            <!-- Checkbox de Estadía con Contratación -->
+            <div class="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 border border-amber-200">
+              <input type="checkbox" id="job-hire-projection" checked class="w-4 h-4 text-amber-600 accent-amber-600 rounded cursor-pointer" />
+              <label for="job-hire-projection" class="text-xs font-bold text-amber-900 cursor-pointer">
+                Vacante de estadía con proyección a contratación
+              </label>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Descripción del Puesto</label>
+              <textarea id="job-description-input" rows="3" required placeholder="Describe las responsabilidades del alumno en la empresa..." class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-[#006837] hover:bg-[#004d28] text-white font-bold text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+              <i data-lucide="send" class="w-4 h-4"></i> Publicar Vacante en Bolsa UT
+            </button>
+          </form>
+        </div>
+
+        <!-- Explorador de Talento UT (Columna Derecha) -->
+        <div class="lg:col-span-2 space-y-4">
+          
+          <!-- Barra de Filtros del Explorador -->
+          <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- Filtro por Carrera -->
+              <select id="filter-talent-career" class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 focus:outline-none focus:border-[#006837]">
+                <option value="todas">Todas las Carreras UT</option>
+                <option value="Ing. en Desarrollo y Gestión de Software">Ing. en Software</option>
+                <option value="Lic. en Gestión y Desarrollo Turístico">Lic. en Turismo</option>
+                <option value="TSU en Desarrollo de Negocios área Mercadotecnia">TSU en Mercadotecnia</option>
+                <option value="Ing. en Mantenimiento Industrial">Ing. en Mantenimiento</option>
+                <option value="TSU en Infraestructura de Redes Digitales">TSU en Redes</option>
+              </select>
+
+              <!-- Filtro por Estatus / Cuatrimestre -->
+              <select id="filter-talent-quarter" class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 focus:outline-none focus:border-[#006837]">
+                <option value="todos">Todos los Niveles</option>
+                <option value="estadias">Alumnos de Estadía (9° a 11°)</option>
+                <option value="egresados">Egresados Titulados</option>
+                <option value="iniciales">Cuatrimestres Iniciales (1° a 8°)</option>
+              </select>
+
+              <!-- Checkbox Solo Egresados Verificados -->
+              <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer pl-1">
+                <input type="checkbox" id="filter-talent-verified" class="w-3.5 h-3.5 text-[#006837] accent-[#006837] rounded" />
+                <span>Solo Egresados Verificados</span>
+              </label>
+            </div>
+
+            <span id="talent-count-badge" class="text-xs font-bold text-[#006837] bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+              Cargando talento...
+            </span>
+          </div>
+
+          <!-- Contenedor de Candidatos -->
+          <div id="talent-explorer-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Renderizado dinámico vía app.js -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ====================================================================
+       WIDGET FLOTANTE: "COPILOTO LABORAL UT" (CHATBOT INTEGRADO)
+       ==================================================================== -->
+  <div class="fixed bottom-6 right-6 z-40">
+    
+    <!-- Ventana de Chat del Copiloto -->
+    <div id="copilot-chat-window" class="copilot-window bg-white rounded-2xl border border-slate-200 shadow-2xl flex flex-col mb-3 hidden overflow-hidden">
+      <!-- Cabecera del Chat -->
+      <div class="bg-gradient-to-r from-[#006837] to-[#004d28] text-white p-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+            <i data-lucide="bot" class="w-4 h-4 text-amber-400"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs leading-none">Copiloto Laboral UT</h4>
+            <span class="text-[10px] text-emerald-200 flex items-center gap-1 mt-0.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Activo • UT Cancún
+            </span>
+          </div>
+        </div>
+        <button id="copilot-close-btn" class="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Barra de Acciones Rápidas -->
+      <div class="bg-slate-50 border-b border-slate-200/80 px-3 py-2 flex items-center gap-1.5 overflow-x-auto text-[11px]">
+        <button data-copilot-cmd="/optimizar-cv" class="whitespace-nowrap px-2 py-1 rounded bg-white hover:bg-emerald-50 text-[#006837] border border-slate-200 font-semibold transition">
+          /optimizar-cv
+        </button>
+        <button data-copilot-cmd="/simular-entrevista" class="whitespace-nowrap px-2 py-1 rounded bg-white hover:bg-amber-50 text-amber-800 border border-slate-200 font-semibold transition">
+          /simular-entrevista
+        </button>
+        <button data-copilot-cmd="/ayuda-plataforma" class="whitespace-nowrap px-2 py-1 rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold transition">
+          /ayuda-plataforma
+        </button>
+      </div>
+
+      <!-- Mensajes del Chat -->
+      <div id="copilot-messages" class="flex-1 p-4 overflow-y-auto bg-slate-50/50"></div>
+
+      <!-- Input del Chat -->
+      <form id="copilot-form" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+        <input 
+          type="text" 
+          id="copilot-input" 
+          placeholder="Pregunta o escribe un comando..." 
+          class="flex-1 text-xs px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-[#006837] bg-slate-50"
+        />
+        <button type="submit" class="w-8 h-8 rounded-xl bg-[#006837] hover:bg-[#004d28] text-white flex items-center justify-center transition shadow-sm flex-shrink-0">
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Botón Flotante Redondo -->
+    <button 
+      id="copilot-bubble-btn" 
+      class="copilot-bubble w-14 h-14 rounded-full bg-[#006837] text-white flex items-center justify-center relative cursor-pointer group border-2 border-emerald-400"
+      title="Abrir Copiloto Laboral UT"
+    >
+      <i data-lucide="sparkles" class="w-6 h-6 text-[#F39200] group-hover:rotate-12 transition transform duration-200"></i>
+      <!-- Punto de Notificación -->
+      <span id="copilot-badge-notice" class="absolute -top-1 -right-1 w-4 h-4 bg-[#F39200] text-white text-[9px] font-bold rounded-full flex items-center justify-center animate-bounce border-2 border-white">
+        1
+      </span>
+    </button>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 1: ONBOARDING Y BIFURCACIÓN DE ROL INICIAL
+       ==================================================================== -->
+  <div id="onboarding-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-[#006837] text-white font-black text-xl mx-auto flex items-center justify-center mb-2 shadow-sm">
+          UT
+        </div>
+        <h3 class="text-lg font-black text-slate-900">Bolsa de Trabajo UT Cancún</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Selecciona tu perfil para personalizar la experiencia en la plataforma</p>
+      </div>
+
+      <!-- Selector de Rol Obligatorio -->
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <label class="cursor-pointer border-2 rounded-xl p-3 text-center transition flex flex-col items-center gap-1.5 has-[:checked]:border-[#006837] has-[:checked]:bg-emerald-50/50">
+          <input type="radio" name="onboard-role" id="onboard-role-student" value="student" checked class="sr-only" />
+          <i data-lucide="graduation-cap" class="w-5 h-5 text-[#006837]"></i>
+          <span class="text-xs font-bold text-slate-800">Soy Estudiante / Egresado</span>
+        </label>
+        <label class="cursor-pointer border-2 rounded-xl p-3 text-center transition flex flex-col items-center gap-1.5 has-[:checked]:border-[#006837] has-[:checked]:bg-emerald-50/50">
+          <input type="radio" name="onboard-role" id="onboard-role-company" value="company" class="sr-only" />
+          <i data-lucide="building-2" class="w-5 h-5 text-[#006837]"></i>
+          <span class="text-xs font-bold text-slate-800">Soy Empresa / Reclutador</span>
+        </label>
+      </div>
+
+      <!-- Formulario para Estudiante -->
+      <div id="onboard-form-student" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre Completo</label>
+          <input type="text" id="onboard-student-name" value="Javier Castro Alvarado" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Matrícula o Correo UT</label>
+            <input type="text" id="onboard-student-matricula" value="21040892" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Estatus / Cuatrimestre</label>
+            <select id="onboard-student-quarter" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+              <option value="3">3° Cuatrimestre</option>
+              <option value="6">6° Cuatrimestre (Estadía TSU)</option>
+              <option value="8">8° Cuatrimestre</option>
+              <option value="10" selected>10° Cuatrimestre</option>
+              <option value="11">11° Cuatrimestre (Estadía Ing/Lic)</option>
+              <option value="egresado">Egresado Titulado</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">División Académica</label>
+          <select id="onboard-student-division" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+            <option value="tic">División de Tecnologías de la Información y Comunicación</option>
+            <option value="turismo">División de Turismo y Gastronomía</option>
+            <option value="administracion">División de Administración y Negocios</option>
+            <option value="ingenieria">División de Ingeniería y Tecnología</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Carrera Oficial</label>
+          <select id="onboard-student-career" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+            <option value="Ing. en Desarrollo y Gestión de Software">Ing. en Desarrollo y Gestión de Software</option>
+            <option value="TSU en Desarrollo de Software Multiplataforma">TSU en Desarrollo de Software Multiplataforma</option>
+            <option value="Ing. en Redes Inteligentes y Ciberseguridad">Ing. en Redes Inteligentes y Ciberseguridad</option>
+            <option value="TSU en Infraestructura de Redes Digitales">TSU en Infraestructura de Redes Digitales</option>
+          </select>
+        </div>
+
+        <button id="btn-save-onboard-student" class="w-full mt-4 py-2.5 px-4 rounded-xl bg-[#006837] text-white font-bold text-xs hover:bg-[#004d28] transition shadow-sm">
+          Entrar como Estudiante / Egresado
+        </button>
+      </div>
+
+      <!-- Formulario para Empresa -->
+      <div id="onboard-form-company" class="space-y-3 hidden">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Razón Social de la Empresa</label>
+          <input type="text" id="onboard-company-name" value="Grupo Xcaret - Cancún" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">RFC / Identificación Fiscal</label>
+            <input type="text" id="onboard-company-rfc" value="XCA980214KJ2" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Sector Económico</label>
+            <select id="onboard-company-sector" class="w-full text-xs px-2.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]">
+              <option value="Hotelería, Turismo y Entretenimiento">Hotelería y Turismo</option>
+              <option value="Tecnología y Desarrollo de Software">Tecnología y Software</option>
+              <option value="Servicios Empresariales y Finanzas">Servicios y Administración</option>
+              <option value="Alimentos y Bebidas / Restaurantes">Gastronomía y Alimentos</option>
+              <option value="Mantenimiento y Logística Industrial">Mantenimiento y Logística</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre del Reclutador(a)</label>
+          <input type="text" id="onboard-company-recruiter" value="Lic. Mariana Velázquez" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#006837]" />
+        </div>
+
+        <button id="btn-save-onboard-company" class="w-full mt-4 py-2.5 px-4 rounded-xl bg-[#006837] text-white font-bold text-xs hover:bg-[#004d28] transition shadow-sm">
+          Entrar al Panel de Empresa
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 2: DETALLE DE MATCH SCORING (COMPATIBILIDAD)
+       ==================================================================== -->
+  <div id="match-score-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div id="match-score-modal-body" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <!-- Renderizado dinámico vía app.js -->
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       PIE DE PÁGINA INSTITUCIONAL
+       ==================================================================== -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:items-center sm:justify-between text-xs text-slate-500">
+      <div class="flex items-center justify-center sm:justify-start gap-2 mb-2 sm:mb-0">
+        <span class="font-bold text-[#006837]">Universidad Tecnológica de Cancún</span>
+        <span>•</span>
+        <span>Dirección de Vinculación y Extensión Universitaria</span>
+      </div>
+      <p>Carretera Cancún-Aeropuerto, Km. 11.5, Cancún, Quintana Roo. México.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts de la Aplicación -->
+  <script src="js/data.js"></script>
+  <script src="js/copilot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
